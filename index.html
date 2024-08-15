@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .box {
+            margin-top: 10px;
+            padding: 10px;
+         border: 1px black solid;
+         height: 450px;
+         width: 450px;
+         position: relative;
+        }
+        .number {
+            border-radius: 50%;
+            border: 1px black solid;
+            display: inline-block;
+            padding: 5px 10px;
+            cursor: pointer;
+            position: absolute;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Let's play </h1 >
+    <table>
+        <tr>
+            <td>Point:</td>
+            <td><input type="number" min="1" id="inputNumber" /></td>
+        </tr>
+        <tr>
+            <td>Time:</td>
+            <td>
+                <p>0</p>
+            </td>
+        </tr>
+    </table>
+    <button id="playButton" onclick="play()">Play</button>
+    <div class="box" id="boxContainer">
+    </div>
+</body>
+<script>
+    function play() {
+         let input = document.getElementById("inputNumber").value;
+         let playButton = document.getElementById("playButton").innerText;
+         if (input !== null) {
+            document.getElementById("playButton").innerText = "Restart"
+         }
+         let boxContainer = document.getElementById("boxContainer");
+         boxContainer.innerHTML = "";
+         let containerWidth = boxContainer.clientWidth;
+                let containerHeight = boxContainer.clientHeight;
+                let size = 40;
+         for (let i = 1; i <= input; i++) {
+            let newDiv = document.createElement("div");
+            newDiv.classList.add("number");
+            newDiv.innerText = i;
+            let randomX = Math.random() * (containerWidth - size);
+                    let randomY = Math.random() * (containerHeight - size);
+                    newDiv.style.left = randomX + 'px';
+                    newDiv.style.top = randomY + 'px';
+                    newDiv.addEventListener('click', function() {
+                        handleClick(this);
+                    })
+            boxContainer.appendChild(newDiv);
+         }
+    };
+    function handleClick(element) {
+      let boxContainer = document.getElementById('boxContainer');
+      let numbers = Array.from(boxContainer.getElementsByClassName('number'));
+      let currentValue = parseInt(element.innerText);
+      let isMaxValue = numbers.every(num => parseInt(num.innerText) <= currentValue);
+      if (isMaxValue) {
+        element.remove();
+      }
+    }
+</script>
+</html>
